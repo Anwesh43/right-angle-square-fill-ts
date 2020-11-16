@@ -1,6 +1,6 @@
 const w : number = window.innerWidth 
 const h : number = window.innerHeight 
-const parts : number = 4 
+const parts : number = 5
 const scGap : number = 0.02 / parts 
 const strokeFactor : number = 90 
 const sizeFactor : number = 9.5 
@@ -11,7 +11,7 @@ const colors : Array<string> = [
     "#3F51B5",
     "#4CAF50",
     "#FF5722",
-    "#4CAF50"
+    "#009688"
 ]
 
 class ScaleUtil {
@@ -44,15 +44,14 @@ class DrawingUtil {
         const y : number = size * ScaleUtil.divideScale(sf, 3, parts)
         context.save()
         context.translate(w / 2, h / 2)
-        context.fillRect(-size, -y, 2 * size, 2 * y)
+        context.fillRect(-size / 2, -y / 2, size, y)
         for (var j = 0; j < 2; j++) {
             context.save()
-            context.scale(1, 1 - 2 * j)
-            context.translate(size * 0.5 * (1 - 2 * j), 0.4 * h * (1 - ScaleUtil.divideScale(sf, 2, parts)))
+            context.translate(size * 0.5 * (1 - 2 * j), 0.4 * h * (1 - 2 * j) * (1 - ScaleUtil.divideScale(sf, 2, parts)))
             for (var k = 0; k < 2; k++) {
                 const xEnd = -size * (1 - 2 * j) * ScaleUtil.divideScale(sf, 0, parts) 
                 context.save()
-                context.translate(0, size / 2)
+                context.translate(0, (1 - 2 * j) * size / 2)
                 context.rotate(k * ScaleUtil.divideScale(sf, 1, parts) * Math.PI / 2)
                 DrawingUtil.drawLine(context, 0, 0, xEnd, 0)
                 context.restore()
