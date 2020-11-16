@@ -145,3 +145,45 @@ class Animator {
         }
     }
 }
+
+class RASFNode {
+
+    next : RASFNode 
+    prev : RASFNode 
+    state : State = new State()
+
+    constructor(private i : number) {
+        this.addNeighbor()
+    }
+
+    addNeighbor() {
+        if (this.i < colors.length - 1) {
+            this.next = new RASFNode(this.i + 1)
+            this.next.prev = this 
+        }
+    }
+
+    draw(context : CanvasRenderingContext2D) {
+        DrawingUtil.drawRASFNode(context, this.i, this.state.scale)
+    }
+
+    update(cb : Function) {
+        this.state.update(cb)
+    }
+
+    startUpdating(cb : Function) {
+        this.state.startUpdating(cb)
+    }
+
+    getNext(dir : number, cb : Function) : RASFNode {
+        var curr : RASFNode = this.prev 
+        if (dir == 1) {
+            curr = this.next 
+        }
+        if (curr) {
+            return curr 
+        }
+        cb()
+        return this 
+    }
+}
