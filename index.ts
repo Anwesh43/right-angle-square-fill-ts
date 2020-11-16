@@ -210,3 +210,25 @@ class RightAngleSquareFill {
         this.curr.startUpdating(cb)
     }
 }
+
+class Renderer {
+
+    animator : Animator = new Animator()
+    rasf : RightAngleSquareFill = new RightAngleSquareFill()
+
+    render(context : CanvasRenderingContext2D) {
+        this.rasf.draw(context)
+    }
+
+    handleTap(cb : Function) {
+        this.rasf.startUpdating(() => {
+            this.animator.start(() => {
+                cb()
+                this.rasf.update(() => {
+                    this.animator.stop()
+                    cb()
+                })
+            })
+        })
+    }
+}
